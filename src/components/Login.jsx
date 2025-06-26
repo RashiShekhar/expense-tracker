@@ -1,11 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const { login } = useAuth();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const nav = useNavigate();
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        login(data.user);
+        console.log("Login success:", data);
+        nav("/dashboard");
+      } else {
+        alert("Invalid credentials");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Server error during login");
+    }
+  };
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
       <div
@@ -26,7 +54,7 @@ function Login() {
               LOGIN
             </div>
 
-            <form className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4" onSubmit={handleLogin}>
               <div className="flex flex-col gap-2">
                 <label htmlFor="uname" className="font-bold">
                   Name:
@@ -36,6 +64,7 @@ function Login() {
                   className="border border-black p-1 rounded"
                   id="uname"
                   placeholder="Enter Your Name"
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
                 <label htmlFor="upass" className="font-bold">
@@ -46,13 +75,13 @@ function Login() {
                   className="border border-black p-1 rounded"
                   id="upass"
                   placeholder="Enter Your Password"
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                onClick={() => nav("/dashboard")}
                 className="btn border border-black btn-lg rounded-full self-center p-2 hover:bg-black hover:text-white"
               >
                 Login
