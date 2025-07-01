@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import Nav from "./Nav";
 
 export default function Dashboard() {
+  const [amt, setAmt] = useState("");
+
+  const Add = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: amt }),
+      });
+
+      const data = await response.json();
+      console.log("Server Response:", data);
+      setAmt("");
+    } catch (error) {
+      console.error("Error submitting amount:", error);
+    }
+  };
+
   return (
     <>
       <Nav />
@@ -23,11 +45,13 @@ export default function Dashboard() {
               <input
                 type="text"
                 placeholder="Enter amount"
+                value={amt}
+                onChange={(e) => setAmt(e.target.value)}
                 className="input input-accent w-60 gap-3"
               />
 
               <div className="flex gap-3 mt-2">
-                <button className="btn btn-accent">
+                <button className="btn btn-accent" onClick={Add}>
                   <b>Add</b>
                 </button>
                 <button className="btn btn-secondary">

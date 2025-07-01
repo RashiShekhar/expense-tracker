@@ -12,17 +12,12 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    const uname = e.target.uname.value;
-    const password = e.target.upass.value;
-    const cpass = e.target.cpass.value;
-    const uemail = e.target.email.value;
-
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    const userData = { name, password, confirmPassword, email };
+    const userData = { name, email, password };
     const response = await fetch("http://localhost:5000/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

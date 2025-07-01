@@ -1,10 +1,10 @@
-// backend/routes/auth.js
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
 // Signup
 router.post("/signup", async (req, res) => {
+  console.log("Request body:", req.body);
   const { name, email, password } = req.body;
   try {
     const existing = await User.findOne({ email });
@@ -14,21 +14,21 @@ router.post("/signup", async (req, res) => {
     await user.save();
     res.status(201).json({ message: "User created" });
   } catch (err) {
-    console.error("Signup error:", err); // <--- Add this
+    console.error("Signup error:", err);
     res.status(500).json({ message: "Error creating user" });
   }
 });
 
 // Login
 router.post("/login", async (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const user = await User.findOne({ name, password });
+    const user = await User.findOne({ email, password });
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
     res.json({ message: "Login successful", user });
   } catch (err) {
-    console.error("Signup error:", err); // <--- Add this
+    console.error("Login error:", err);
     res.status(500).json({ message: "Login failed" });
   }
 });

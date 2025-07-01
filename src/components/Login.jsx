@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const { login } = useAuth();
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const nav = useNavigate();
 
@@ -17,7 +17,7 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -57,14 +57,14 @@ function Login() {
             <form className="flex flex-col gap-4" onSubmit={handleLogin}>
               <div className="flex flex-col gap-2">
                 <label htmlFor="uname" className="font-bold">
-                  Name:
+                  Email:
                 </label>
                 <input
                   type="text"
                   className="border border-black p-1 rounded"
-                  id="uname"
-                  placeholder="Enter Your Name"
-                  onChange={(e) => setName(e.target.value)}
+                  id="email"
+                  placeholder="Enter Your Email"
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
                 <label htmlFor="upass" className="font-bold">
