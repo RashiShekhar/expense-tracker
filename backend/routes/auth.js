@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Amount = require("../models/Amount");
 
 // Signup
 router.post("/signup", async (req, res) => {
@@ -30,6 +31,30 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ message: "Login failed" });
+  }
+});
+
+//dashboard
+router.post("/dashboard", async (req, res) => {
+  const { amount } = req.body;
+  console.log("Received amount:", amount);
+
+  if (amount === undefined || isNaN(amount)) {
+    return res.status(400).json({ message: "Valid amount is required" });
+  }
+
+  try {
+    const newEntry = new Amount({ amount: Number(amount) });
+    await newEntry.save();
+
+    console.log("Amount saved:", newEntry);
+    res.status(201).json({
+      message: "Amount saved successfully",
+      data: newEntry,
+    });
+  } catch (err) {
+    console.error("MongoDB insert error:", err);
+    res.status(500).json({ message: "Server error while saving amount" });
   }
 });
 
