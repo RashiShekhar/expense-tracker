@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Amount = require("../models/Amount");
+const Data = require("../models/Data");
 
 // Signup
 router.post("/signup", async (req, res) => {
@@ -55,6 +56,33 @@ router.post("/dashboard", async (req, res) => {
   } catch (err) {
     console.error("MongoDB insert error:", err);
     res.status(500).json({ message: "Server error while saving amount" });
+  }
+});
+
+//data
+router.post("/total", async (req, res) => {
+  const { total } = req.body;
+
+  if (total === undefined || isNaN(total)) {
+    return res.status(400).json({ message: "Total must be a valid number" });
+  }
+
+  try {
+    const newTotal = new Data({ total });
+    await newTotal.save();
+    res.status(201).json({ message: "Total saved", data: newTotal });
+  } catch (err) {
+    console.error("Error saving total:", err);
+    res.status(500).json({ message: "Failed to save total" });
+  }
+});
+
+router.get("/total", async (req, res) => {
+  try {
+    const allTotals = await Data.find().sort({ createdAt: -1 }); // Most recent first
+    res.status(200).json({ data: allTotals });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch totals" });
   }
 });
 
