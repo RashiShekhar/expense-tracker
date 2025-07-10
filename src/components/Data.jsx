@@ -61,7 +61,6 @@ export default function Data() {
     <>
       <Nav />
       <div className="relative min-h-screen w-full bg-gradient-to-br from-black to-purple-900 overflow-hidden p-10">
-        {/* Background Blur Overlay */}
         <div className="absolute inset-0 opacity-20 bg-[url('/img2.jpg')] bg-cover bg-center blur-3xl scale-125 z-0" />
 
         <div className="relative z-10 flex flex-col items-center">

@@ -32,95 +32,85 @@ function Signup() {
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center scale-110"
-        style={{ backgroundImage: `url("/img2.jpg")` }}
-      />
+    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-black to-purple-900">
+      <div className="absolute inset-0 opacity-20 bg-[url('/img2.jpg')] bg-cover bg-center blur-3xl scale-125 z-0" />
 
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black/60 z-0" />
 
-      {/* Signup Form Container */}
-      <div className="relative z-10 flex items-center justify-center h-full px-4">
-        <div className="bg-white/10 backdrop-blur-md border border-white/30 p-8 rounded-lg shadow-2xl w-full max-w-md">
-          <h2 className="text-3xl font-bold text-center text-white mb-6">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
+        <div className="bg-white/10 backdrop-blur-lg border border-white/30 p-8 rounded-xl shadow-2xl w-full max-w-md">
+          <h2 className="text-3xl font-extrabold text-white text-center mb-6 drop-shadow-md">
             ✨ Create an Account
           </h2>
 
-          <form className="flex flex-col gap-4" onSubmit={handleSignup}>
-            <div className="flex flex-col text-white gap-1">
-              <label htmlFor="name" className="text-sm font-medium">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                placeholder="Enter your name"
-                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="flex flex-col text-white gap-1">
-              <label htmlFor="email" className="text-sm font-medium">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="flex flex-col text-white gap-1">
-              <label htmlFor="password" className="text-sm font-medium">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="flex flex-col text-white gap-1">
-              <label htmlFor="confirmPassword" className="text-sm font-medium">
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                placeholder="Re-enter your password"
-                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-            </div>
+          <form className="flex flex-col gap-5" onSubmit={handleSignup}>
+            {[
+              {
+                id: "name",
+                label: "Name",
+                type: "text",
+                value: name,
+                setValue: setName,
+                placeholder: "Enter your name",
+              },
+              {
+                id: "email",
+                label: "Email",
+                type: "email",
+                value: email,
+                setValue: setEmail,
+                placeholder: "Enter your email",
+              },
+              {
+                id: "password",
+                label: "Password",
+                type: "password",
+                value: password,
+                setValue: setPassword,
+                placeholder: "Enter your password",
+              },
+              {
+                id: "confirmPassword",
+                label: "Confirm Password",
+                type: "password",
+                value: confirmPassword,
+                setValue: setConfirmPassword,
+                placeholder: "Re-enter your password",
+              },
+            ].map(({ id, label, type, value, setValue, placeholder }) => (
+              <div key={id} className="flex flex-col text-white gap-1">
+                <label
+                  htmlFor={id}
+                  className="text-sm font-semibold text-white/80"
+                >
+                  {label}
+                </label>
+                <input
+                  id={id}
+                  type={type}
+                  placeholder={placeholder}
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  required
+                  className="px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition"
+                />
+              </div>
+            ))}
 
             <button
               type="submit"
-              className="mt-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition duration-200"
+              className="mt-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-lg shadow-lg transition duration-300"
             >
               Sign Up
             </button>
           </form>
 
-          <p className="text-center text-sm text-white mt-4">
+          <p className="text-center text-sm text-white/70 mt-6">
             Already have an account?{" "}
-            <Link to="/login" className="underline hover:text-blue-300">
+            <Link
+              to="/login"
+              className="underline text-emerald-400 hover:text-emerald-600 transition"
+            >
               Login
             </Link>
           </p>

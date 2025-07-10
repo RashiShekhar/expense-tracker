@@ -15,7 +15,6 @@ export default function Nav() {
 
   return (
     <nav className="w-full h-16 fixed top-0 left-0 z-50 backdrop-blur-md bg-white/10 border-b border-white/20 text-white px-6 flex justify-between items-center shadow-md">
-      {/* Logo + Title */}
       <div className="flex items-center gap-3 text-xl font-semibold tracking-wide">
         <SiPivotaltracker className="text-2xl text-emerald-400 drop-shadow" />
         <span className="text-white font-mono">
@@ -24,7 +23,6 @@ export default function Nav() {
         </span>
       </div>
 
-      {/* Logout Button */}
       <button
         onClick={handleLogout}
         className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-1 rounded-full shadow-sm transition hover:scale-105 active:scale-95 border border-white/30"

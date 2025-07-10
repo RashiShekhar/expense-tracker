@@ -111,7 +111,6 @@ export default function Dashboard() {
       <Nav />
 
       <div className="relative min-h-screen w-full bg-gradient-to-br from-black to-purple-900 overflow-hidden">
-        {/* Background Blur Overlay */}
         <div className="absolute inset-0 opacity-20 bg-[url('/img2.jpg')] bg-cover bg-center blur-3xl scale-125 z-0" />
 
         <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
@@ -120,7 +119,6 @@ export default function Dashboard() {
               💸 Your Daily Tracker
             </h2>
 
-            {/* Entry Form */}
             <form className="flex flex-col gap-6 items-center" onSubmit={Add}>
               <div className="w-full max-w-sm relative">
                 <input
@@ -240,14 +238,12 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Total Display */}
             {total !== null && (
               <div className="text-center mt-6 text-3xl font-bold text-green-300 transition-all">
                 Total Spent: ₹ {animatedTotal}
               </div>
             )}
 
-            {/* History Button */}
             <div className="flex justify-center mt-6">
               <Link to="/Data">
                 <button className="btn btn-outline btn-warning text-lg flex items-center gap-2 hover:scale-105 transition">
