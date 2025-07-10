@@ -70,31 +70,35 @@ router.post("/dashboard", async (req, res) => {
     res.status(500).json({ message: "Server error while saving entry" });
   }
 });
-
-//data
-router.post("/total", async (req, res) => {
-  const { total } = req.body;
-
-  if (total === undefined || isNaN(total)) {
-    return res.status(400).json({ message: "Total must be a valid number" });
-  }
-
+// Get all entries
+router.get("/entries", async (req, res) => {
   try {
-    const newTotal = new Data({ total });
-    await newTotal.save();
-    res.status(201).json({ message: "Total saved", data: newTotal });
-  } catch (err) {
-    console.error("Error saving total:", err);
-    res.status(500).json({ message: "Failed to save total" });
+    const entries = await Amount.find().sort({ createdAt: -1 });
+    res.status(200).json(entries);
+  } catch (error) {
+    console.error("Error fetching entries:", error);
+    res.status(500).json({ message: "Error fetching entries" });
   }
 });
 
+//data
 router.get("/total", async (req, res) => {
   try {
-    const allTotals = await Data.find().sort({ createdAt: -1 }); // Most recent first
-    res.status(200).json({ data: allTotals });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch totals" });
+    const result = await Amount.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    const total = result[0]?.totalAmount || 0;
+
+    res.status(200).json({ total });
+  } catch (error) {
+    console.error("Error calculating total:", error);
+    res.status(500).json({ message: "Server error while calculating total" });
   }
 });
 
