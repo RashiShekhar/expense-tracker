@@ -28,7 +28,7 @@ A full-stack daily expense tracker app with item name support, built using React
 - MongoDB
 - Mongoose
 
-## Run Locally
+## 🚀 Run Locally
 
 ```bash
 npm install
