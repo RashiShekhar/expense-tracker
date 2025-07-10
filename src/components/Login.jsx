@@ -34,67 +34,68 @@ function Login() {
       alert("Server error during login");
     }
   };
+
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-900 text-white">
+      {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center filter blur-lg scale-110"
+        className="absolute inset-0 bg-cover bg-center filter brightness-50"
         style={{
           backgroundImage: `url("/img2.jpg")`,
         }}
       ></div>
 
-      <div className="relative z-10 p-10">
-        <div className="flex flex-col justify-center items-center p-10 gap-4">
-          <div className="w-96 border-2 rounded-md border-black bg-transparent backdrop-blur-sm p-8">
-            <div className="text-3xl text-center underline underline-offset-4 mb-6">
-              LOGIN
-            </div>
-
-            <form className="flex flex-col gap-4" onSubmit={handleLogin}>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="uname" className="font-bold">
-                  Email:
-                </label>
-                <input
-                  type="text"
-                  className="border border-black p-1 rounded"
-                  id="email"
-                  placeholder="Enter Your Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <label htmlFor="upass" className="font-bold">
-                  Password:
-                </label>
-                <input
-                  type="password"
-                  className="border border-black p-1 rounded"
-                  id="upass"
-                  placeholder="Enter Your Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn border border-black btn-lg rounded-full self-center p-2 hover:bg-black hover:text-white"
-              >
-                Login
-              </button>
-            </form>
+      {/* Form Container */}
+      <div className="relative z-10 w-full max-w-md p-8 rounded-xl shadow-2xl backdrop-blur-md bg-white/10 border border-white/20">
+        <h1 className="text-4xl font-bold text-center text-white mb-6">
+          Welcome Back 👋
+        </h1>
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
 
-          <p className="text-black text-lg">
-            Don’t have an account?{" "}
-            <Link
-              to="/signup"
-              className="underline text-stone-900 hover:text-gray-950"
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1"
             >
-              Sign up
-            </Link>
-          </p>
-        </div>
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white font-semibold rounded-lg shadow-md"
+          >
+            Log In
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-white/80 text-sm">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-blue-300 hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
