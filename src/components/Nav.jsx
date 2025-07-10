@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,13 +23,20 @@ export default function Nav() {
         </span>
       </div>
 
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-1 rounded-full shadow-sm transition hover:scale-105 active:scale-95 border border-white/30"
-      >
-        <span className="text-sm font-medium">Logout</span>
-        <FiLogOut className="text-base" />
-      </button>
+      <div className="flex items-center gap-4">
+        {user?.name && (
+          <span className="text-sm font-medium text-white hidden sm:block">
+            👋 Hello, <span className="text-emerald-300">{user.name}</span>
+          </span>
+        )}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-1 rounded-full shadow-sm transition hover:scale-105 active:scale-95 border border-white/30"
+        >
+          <span className="text-sm font-medium">Logout</span>
+          <FiLogOut className="text-base" />
+        </button>
+      </div>
     </nav>
   );
 }

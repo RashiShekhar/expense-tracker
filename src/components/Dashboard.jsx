@@ -148,7 +148,7 @@ export default function Dashboard() {
                   placeholder=" "
                   value={amt}
                   onChange={(e) => setAmt(e.target.value)}
-                  className="peer block w-full rounded-lg border border-white/30 bg-transparent px-4 pt-5 pb-2 text-white placeholder-transparent focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition"
+                  className="peer block w-full rounded-lg border border-white/30 bg-transparent px-4 pt-5 pb-2 text-white placeholder-transparent focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                   required
                   aria-label="Amount"
                 />
