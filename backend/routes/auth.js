@@ -36,26 +36,38 @@ router.post("/login", async (req, res) => {
 });
 
 //dashboard
+// routes/dashboard.js or wherever your route is
 router.post("/dashboard", async (req, res) => {
-  const { amount } = req.body;
-  console.log("Received amount:", amount);
+  const { amount, item } = req.body;
+  console.log("Received:", { amount, item });
 
-  if (amount === undefined || isNaN(amount)) {
-    return res.status(400).json({ message: "Valid amount is required" });
+  if (
+    amount === undefined ||
+    isNaN(amount) ||
+    !item ||
+    typeof item !== "string" ||
+    item.trim() === ""
+  ) {
+    return res
+      .status(400)
+      .json({ message: "Valid amount and item name are required" });
   }
 
   try {
-    const newEntry = new Amount({ amount: Number(amount) });
+    const newEntry = new Amount({
+      amount: Number(amount),
+      item: item.trim(),
+    });
+
     await newEntry.save();
 
-    console.log("Amount saved:", newEntry);
     res.status(201).json({
-      message: "Amount saved successfully",
+      message: "Amount and item saved successfully",
       data: newEntry,
     });
   } catch (err) {
     console.error("MongoDB insert error:", err);
-    res.status(500).json({ message: "Server error while saving amount" });
+    res.status(500).json({ message: "Server error while saving entry" });
   }
 });
 

@@ -40,10 +40,6 @@ function Signup() {
         }}
       ></div>
       <div className="relative z-10 p-10">
-        <h1 className="text-center text-5xl font-semibold m-4 text-white drop-shadow-lg">
-          <i>Finance Tracker Application</i>
-        </h1>
-
         <div className="flex flex-col justify-center items-center p-10 gap-4">
           <div className="w-96 border-2 rounded-md border-black bg-transparent backdrop-blur-sm p-8">
             <div className="text-3xl text-center underline underline-offset-4 mb-6">
