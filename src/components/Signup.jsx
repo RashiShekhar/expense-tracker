@@ -25,11 +25,9 @@ function Signup() {
 
     const data = await response.json();
     if (response.ok) {
-      console.log("User created: ", data);
       navigate("/login");
     } else {
       alert(data.message || "Signup failed");
-      console.error("Signup failed:", data.message);
     }
   };
 
@@ -38,76 +36,74 @@ function Signup() {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center scale-110"
-        style={{
-          backgroundImage: `url("/img2.jpg")`,
-        }}
-      ></div>
+        style={{ backgroundImage: `url("/img2.jpg")` }}
+      />
 
-      {/* Dark overlay */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/60 z-0" />
 
-      {/* Signup form */}
-      <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="bg-white/10 backdrop-blur-md p-10 rounded-lg shadow-xl w-96 border border-white/30">
+      {/* Signup Form Container */}
+      <div className="relative z-10 flex items-center justify-center h-full px-4">
+        <div className="bg-white/10 backdrop-blur-md border border-white/30 p-8 rounded-lg shadow-2xl w-full max-w-md">
           <h2 className="text-3xl font-bold text-center text-white mb-6">
-            Create Account
+            ✨ Create an Account
           </h2>
 
           <form className="flex flex-col gap-4" onSubmit={handleSignup}>
-            <div className="flex flex-col gap-2 text-white">
-              <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <div className="flex flex-col text-white gap-1">
+              <label htmlFor="name" className="text-sm font-medium">
                 Name
               </label>
               <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Enter your email"
+                id="name"
+                type="text"
+                placeholder="Enter your name"
+                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
+            </div>
 
-              <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <div className="flex flex-col text-white gap-1">
+              <label htmlFor="email" className="text-sm font-medium">
                 Email
               </label>
               <input
-                type="email"
                 id="email"
-                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                type="email"
                 placeholder="Enter your email"
+                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+            </div>
 
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium mb-1"
-              >
+            <div className="flex flex-col text-white gap-1">
+              <label htmlFor="password" className="text-sm font-medium">
                 Password
               </label>
               <input
-                type="password"
                 id="password"
-                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                type="password"
                 placeholder="Enter your password"
+                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+            </div>
 
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium mb-1"
-              >
+            <div className="flex flex-col text-white gap-1">
+              <label htmlFor="confirmPassword" className="text-sm font-medium">
                 Confirm Password
               </label>
               <input
+                id="confirmPassword"
                 type="password"
-                id="c_password"
-                className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Re-Enter your password"
+                placeholder="Re-enter your password"
+                className="px-4 py-2 rounded bg-white/20 text-white placeholder-white/60 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
@@ -116,16 +112,16 @@ function Signup() {
 
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 hover:bg-blue-700 transition-colors duration-300 text-white font-semibold rounded-lg shadow-md"
+              className="mt-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition duration-200"
             >
-              SignUp
+              Sign Up
             </button>
           </form>
 
           <p className="text-center text-sm text-white mt-4">
             Already have an account?{" "}
-            <Link to="/login" className="underline hover:text-gray-300">
-              Login here
+            <Link to="/login" className="underline hover:text-blue-300">
+              Login
             </Link>
           </p>
         </div>

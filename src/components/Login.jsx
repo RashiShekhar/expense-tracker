@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -14,9 +14,7 @@ function Login() {
     try {
       const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -24,7 +22,6 @@ function Login() {
 
       if (response.ok) {
         login(data.user);
-        console.log("Login success:", data);
         nav("/dashboard");
       } else {
         alert("Invalid credentials");
@@ -39,15 +36,14 @@ function Login() {
     <div className="relative min-h-screen flex items-center justify-center bg-gray-900 text-white">
       <div
         className="absolute inset-0 bg-cover bg-center filter brightness-50"
-        style={{
-          backgroundImage: `url("/img2.jpg")`,
-        }}
-      ></div>
+        style={{ backgroundImage: `url("/img2.jpg")` }}
+      />
 
       <div className="relative z-10 w-full max-w-md p-8 rounded-xl shadow-2xl backdrop-blur-md bg-white/10 border border-white/20">
         <h1 className="text-4xl font-bold text-center text-white mb-6">
           Welcome Back 👋
         </h1>
+
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-1">
@@ -56,9 +52,10 @@ function Login() {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -73,9 +70,10 @@ function Login() {
             <input
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 rounded-lg bg-white/20 text-white border border-white/30 placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>

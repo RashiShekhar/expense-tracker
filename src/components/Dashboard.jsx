@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 import { MdDelete } from "react-icons/md";
 import { LuBookOpenCheck } from "react-icons/lu";
@@ -8,9 +8,10 @@ export default function Dashboard() {
   const [amt, setAmt] = useState("");
   const [entries, setEntries] = useState([]);
   const [total, setTotal] = useState(null);
-  const [editIndex, setEditIndex] = React.useState(null);
-  const [editAmount, setEditAmount] = React.useState("");
+  const [editIndex, setEditIndex] = useState(null);
+  const [editAmount, setEditAmount] = useState("");
   const [itemName, setItemName] = useState("");
+  const [animatedTotal, setAnimatedTotal] = useState(0);
 
   const Add = async (e) => {
     e.preventDefault();
@@ -23,9 +24,7 @@ export default function Dashboard() {
     try {
       const response = await fetch("http://localhost:5000/api/dashboard", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: Number(amt),
           item: itemName.trim(),
@@ -33,10 +32,7 @@ export default function Dashboard() {
       });
 
       const data = await response.json();
-      console.log("Server Response:", data);
-
       if (response.ok) {
-        // Add new entry to the displayed list
         setEntries((prev) => [...prev, data.data]);
         setAmt("");
         setItemName("");
@@ -50,10 +46,8 @@ export default function Dashboard() {
   };
 
   const handleDelete = (index) => {
-    // Remove the entry at the given index
     const updated = entries.filter((_, i) => i !== index);
     setEntries(updated);
-    // Reset edit state if the deleted item was being edited
     if (editIndex === index) {
       setEditIndex(null);
       setEditAmount("");
@@ -72,7 +66,7 @@ export default function Dashboard() {
     }
 
     const updated = entries.map((entry, i) =>
-      i === editIndex ? { amount: parseFloat(editAmount) } : entry
+      i === editIndex ? { ...entry, amount: parseFloat(editAmount) } : entry
     );
 
     setEntries(updated);
@@ -90,129 +84,175 @@ export default function Dashboard() {
     setTotal(sum);
   };
 
+  // Animate the total value smoothly
+  useEffect(() => {
+    if (total === null) return;
+
+    let start = 0;
+    const duration = 700;
+    const stepTime = 10;
+    const increment = total / (duration / stepTime);
+
+    const interval = setInterval(() => {
+      start += increment;
+      if (start >= total) {
+        clearInterval(interval);
+        setAnimatedTotal(total);
+      } else {
+        setAnimatedTotal(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(interval);
+  }, [total]);
+
   return (
     <>
       <Nav />
 
-      <div className="relative min-h-screen w-full">
-        <img
-          src="/img2.jpg"
-          alt="Dashboard Background"
-          className="w-full h-full object-cover blur-xl absolute inset-0"
-        />
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          <div className="relative z-10 p-10">
-            <div className="card w-full max-w-xl bg-base-100 shadow-xl bg-opacity-90 gap-6 border border-white p-10 rounded-lg">
-              <div className="card-body space-y-6">
-                <h2 className="card-title text-3xl">
-                  💰 <b>Daily Expense Tracker</b>
-                </h2>
+      <div className="relative min-h-screen w-full bg-gradient-to-br from-black to-purple-900 overflow-hidden">
+        {/* Background Blur Overlay */}
+        <div className="absolute inset-0 opacity-20 bg-[url('/img2.jpg')] bg-cover bg-center blur-3xl scale-125 z-0" />
 
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
+          <div className="w-full max-w-2xl bg-white/10 backdrop-blur-lg border border-white/30 shadow-2xl rounded-xl p-8">
+            <h2 className="text-4xl font-extrabold text-white text-center mb-8 drop-shadow-md">
+              💸 Your Daily Tracker
+            </h2>
+
+            {/* Entry Form */}
+            <form className="flex flex-col gap-6 items-center" onSubmit={Add}>
+              <div className="w-full max-w-sm relative">
                 <input
                   type="text"
-                  placeholder="Enter item name"
+                  id="itemName"
+                  placeholder=" "
                   value={itemName}
                   onChange={(e) => setItemName(e.target.value)}
-                  className="input input-accent w-80 gap-4 text-lg"
+                  className="peer block w-full rounded-lg border border-white/30 bg-transparent px-4 pt-5 pb-2 text-white placeholder-transparent focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition"
+                  required
+                  aria-label="Item name"
                 />
+                <label
+                  htmlFor="itemName"
+                  className="absolute left-4 top-2 text-sm text-white/70 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-sm peer-focus:text-emerald-400"
+                >
+                  🧾 Item name
+                </label>
+              </div>
 
+              <div className="w-full max-w-sm relative">
                 <input
-                  type="text"
-                  placeholder="Enter amount"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  id="amount"
+                  placeholder=" "
                   value={amt}
                   onChange={(e) => setAmt(e.target.value)}
-                  className="input input-accent w-80 gap-4 text-lg"
+                  className="peer block w-full rounded-lg border border-white/30 bg-transparent px-4 pt-5 pb-2 text-white placeholder-transparent focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition"
+                  required
+                  aria-label="Amount"
                 />
-
-                <div className="flex gap-5 mt-4">
-                  <button
-                    className="btn btn-accent px-8 py-3 text-lg"
-                    onClick={Add}
-                  >
-                    <b>Add</b>
-                  </button>
-                  <button
-                    className="btn btn-secondary px-8 py-3 text-lg"
-                    onClick={calculateTotal}
-                  >
-                    <b>Total</b>
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {entries.length === 0 ? (
-                    <div className="text-black text-lg">No entries</div>
-                  ) : (
-                    entries.map((entry, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between gap-4 bg-white p-2 rounded-md shadow-sm"
-                      >
-                        {editIndex === index ? (
-                          <div className="flex items-center gap-3 w-full">
-                            <input
-                              type="text"
-                              value={editAmount}
-                              onChange={(e) => setEditAmount(e.target.value)}
-                              className="input input-sm input-accent w-24"
-                            />
-                            <div className="flex gap-2 ml-auto">
-                              <button
-                                className="btn btn-sm btn-success"
-                                onClick={handleSaveEdit}
-                                disabled={!editAmount.trim()}
-                              >
-                                ✅ Save
-                              </button>
-                              <button
-                                className="btn btn-sm btn-outline btn-warning"
-                                onClick={handleCancelEdit}
-                              >
-                                ❌ Cancel
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex justify-between items-center w-full">
-                            <span className="text-lg">
-                              🛒 {entry.item || "Unnamed Item"} — ₹{" "}
-                              {entry.amount}
-                            </span>
-
-                            <div className="flex gap-2">
-                              <button
-                                className="btn btn-sm btn-outline btn-info"
-                                onClick={() => handleStartEdit(index)}
-                              >
-                                ✏️ Edit
-                              </button>
-                              <button
-                                className="btn btn-sm btn-outline btn-error flex items-center gap-1"
-                                onClick={() => handleDelete(index)}
-                              >
-                                <MdDelete className="text-lg" />
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </div>
-
-                {total !== null && (
-                  <div className="mt-6 text-2xl font-bold text-green-700">
-                    Total: ₹ {total}
-                  </div>
-                )}
+                <label
+                  htmlFor="amount"
+                  className="absolute left-4 top-2 text-sm text-white/70 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-white/40 peer-focus:top-2 peer-focus:text-sm peer-focus:text-emerald-400"
+                >
+                  💰 Amount
+                </label>
               </div>
+
+              <div className="flex gap-4 mt-2">
+                <button
+                  type="submit"
+                  className="btn bg-emerald-500 text-white px-8 py-2 rounded-lg shadow-md hover:bg-emerald-600 transition"
+                >
+                  ➕ Add
+                </button>
+                <button
+                  type="button"
+                  className="btn bg-indigo-500 text-white px-8 py-2 rounded-lg shadow-md hover:bg-indigo-600 transition"
+                  onClick={calculateTotal}
+                >
+                  📊 Total
+                </button>
+              </div>
+            </form>
+
+            {/* Entry List */}
+            <div className="mt-8 space-y-4">
+              {entries.length === 0 ? (
+                <div className="text-white text-center text-lg animate-pulse">
+                  No entries yet. Start tracking 💼
+                </div>
+              ) : (
+                entries.map((entry, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center bg-white/80 p-3 rounded-md shadow-sm"
+                  >
+                    {editIndex === index ? (
+                      <div className="flex items-center gap-3 w-full">
+                        <input
+                          type="text"
+                          value={editAmount}
+                          onChange={(e) => setEditAmount(e.target.value)}
+                          className="input input-sm w-24"
+                        />
+                        <div className="ml-auto flex gap-2">
+                          <button
+                            className="btn btn-sm btn-success"
+                            onClick={handleSaveEdit}
+                          >
+                            ✅ Save
+                          </button>
+                          <button
+                            className="btn btn-sm btn-warning"
+                            onClick={handleCancelEdit}
+                          >
+                            ❌ Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between items-center w-full">
+                        <span className="text-lg font-medium text-black">
+                          📌 {entry.item} — ₹{entry.amount}
+                        </span>
+                        <div className="flex gap-2">
+                          <button
+                            className="btn btn-sm btn-outline btn-info"
+                            onClick={() => handleStartEdit(index)}
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            className="btn btn-sm btn-outline btn-error"
+                            onClick={() => handleDelete(index)}
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
+
+            {/* Total Display */}
+            {total !== null && (
+              <div className="text-center mt-6 text-3xl font-bold text-green-300 transition-all">
+                Total Spent: ₹ {animatedTotal}
+              </div>
+            )}
+
+            {/* History Button */}
             <div className="flex justify-center mt-6">
               <Link to="/Data">
-                <button className="btn btn-sm btn-outline btn-error flex items-center gap-1 bg-transparent rounded hover:bg-orange-400 text-black text-lg px-8 py-3 border-2 border-black">
+                <button className="btn btn-outline btn-warning text-lg flex items-center gap-2 hover:scale-105 transition">
                   <LuBookOpenCheck />
-                  <b>Check Here</b>
+                  View Full History
                 </button>
               </Link>
             </div>
