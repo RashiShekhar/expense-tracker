@@ -19,20 +19,25 @@ function Intro() {
         autoPlay
         muted
         playsInline
-        className="h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-6">
-        <h1 className="text-4xl md:text-6xl font-extrabold drop-shadow-lg">
-          Welcome to Finance Tracker
+
+      <div className="absolute inset-0 bg-black/60 z-10" />
+
+      <div className="relative z-20 flex flex-col items-center justify-center h-full px-6 text-center text-white">
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
+          Welcome to <span className="text-blue-400">Finance Tracker</span>
         </h1>
-        <p className="text-lg md:text-2xl mt-4 drop-shadow-md">
-          Securely manage your budget and expenses
+        <p className="text-lg md:text-2xl max-w-xl drop-shadow-md">
+          Securely manage your budget, track expenses, and gain financial
+          clarity.
         </p>
+
         <button
           onClick={() => navigate("/login")}
-          className="mt-10 px-6 py-2 bg-white text-black rounded-lg shadow-md hover:bg-gray-200 transition"
+          className="mt-10 px-6 py-3 bg-white text-black rounded-full text-lg font-semibold shadow-lg hover:bg-gray-200 transition-all duration-300"
         >
-          <b>Skip to Login</b>
+          Skip to Login
         </button>
       </div>
     </div>

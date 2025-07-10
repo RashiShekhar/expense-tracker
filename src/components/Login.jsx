@@ -37,7 +37,6 @@ function Login() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-900 text-white">
-      {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center filter brightness-50"
         style={{
@@ -45,7 +44,6 @@ function Login() {
         }}
       ></div>
 
-      {/* Form Container */}
       <div className="relative z-10 w-full max-w-md p-8 rounded-xl shadow-2xl backdrop-blur-md bg-white/10 border border-white/20">
         <h1 className="text-4xl font-bold text-center text-white mb-6">
           Welcome Back 👋
