@@ -1,7 +1,7 @@
-💰 Daily Expense Tracker
+##💰 Daily Expense Tracker
 A full-stack daily expense tracker app with item name support, built using React, Tailwind CSS, DaisyUI, Node.js, Express.js, and MongoDB.
 
-✨ Features
+##✨ Features
 ➕ Add, ✏️ Edit, ❌ Delete expenses
 
 📝 Each expense includes item name, amount, and date
@@ -12,7 +12,7 @@ A full-stack daily expense tracker app with item name support, built using React
 
 🌐 Full REST API with MongoDB backend
 
-🛠️ Tech Stack
+##🛠️ Tech Stack
 Frontend: React, Tailwind CSS, DaisyUI
 
 Backend: Node.js, Express.js
