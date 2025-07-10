@@ -25,7 +25,7 @@ export default function Nav() {
 
       <div className="flex items-center gap-4">
         {user?.name && (
-          <span className="text-sm font-medium text-white hidden sm:block">
+          <span className="text-lg sm:text-xl font-semibold text-white">
             👋 Hello, <span className="text-emerald-300">{user.name}</span>
           </span>
         )}
